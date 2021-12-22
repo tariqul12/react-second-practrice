@@ -1,11 +1,17 @@
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 function App() {
-  const nayoks=['Jasim','BappaRaj','Rajjak','Manna'];
-  const ages=[12,34,55,45,66]
+  const [users,setUsers] = useState([])
+  useEffect(()=>{
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res=>res.json())
+    .then(data=>{setUsers(data)})
+  },[])
+  // const nayoks=['Jasim','BappaRaj','Rajjak','Manna'];
+  // const ages=[12,34,55,45,66]
   return (
     <div className="App">
       <header className="App-header">
@@ -15,13 +21,13 @@ function App() {
         </p>
         <MovieCount></MovieCount>
         <MovieCount></MovieCount>
+        {/* {
+          users.map(user=><li>{user.name}</li>)
+        } */}
         {
-          nayoks.map(nayok=><li>{nayok}</li>)
+          users.map(user=><Nayok  name={user.name} key={user.id} email={user.email}></Nayok>)
         }
-        {
-          nayoks.map(nayok=><Nayok name={nayok}></Nayok>)
-        }
-
+        
       </header>
     </div>
   );
@@ -37,10 +43,17 @@ function Nayok(props){
     <div style={nayokStyle}>
       <h1>Ami Nayok {props.name} </h1>
       <h2>I have done 5 movie {props.age || 30} years </h2>
+      <h3>There is a email: {props.email}</h3>
     </div>
   )
 }
 function MovieCount(){
+  
+  useEffect(()=>{
+    fetch('https://randomuser.me/api/')
+    .then(res=>res.json())
+    .then(data=>console.log(data.results[0].name.title))
+  },[])
    const nayeka=[{name:"Sabana",age:49},{name:"Sabnor",age:50},{name:"pornima",age:36},{name:"Bobita",age:60}];
   const [count,setCount]=useState(5)
   // let handelClick=()=> setCount(count +1);
